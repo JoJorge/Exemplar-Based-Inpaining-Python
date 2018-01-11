@@ -184,11 +184,12 @@ class Inpainter():
         for i in range(len(self.fillFront)):
             x, y = self.fillFront[i]
             # Way 1
-            # priority = self.data[y, x] * self.confidence[y, x]
+            priority = self.data[y, x] * self.confidence[y, x]
             # Way 2
+            '''
             Rcp = (1-omega) * self.confidence[y, x] + omega
             priority = alpha * Rcp + beta * self.data[y, x]
-            
+            '''
             if priority > maxPriority:
                 maxPriority = priority
                 self.targetIndex = i
