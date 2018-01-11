@@ -71,7 +71,7 @@ class Inpainter():
             self.computeConfidence()
             self.computeData()
             self.computeTarget()
-            #print 'Computing bestpatch', time.asctime()
+            print 'Computing bestpatch', time.asctime()
             self.computeBestPatch()
             self.updateMats()
             stay = self.checkEnd()
@@ -80,7 +80,7 @@ class Inpainter():
             cv2.imwrite("../tests/workImage.jpg", self.workImage)
         
         self.result = np.copy(self.workImage)
-        cv2.imshow("Confidence", self.confidence)
+        # cv2.imshow("Confidence", self.confidence)
     
     def initializeMats(self):
         _, self.confidence = cv2.threshold(self.mask, 10, 255, cv2.THRESH_BINARY)
@@ -175,7 +175,7 @@ class Inpainter():
         for i in range(len(self.fillFront)):
             x, y = self.fillFront[i]
             currentNormalX, currentNormalY = self.normals[i]
-            self.data[y, x] = math.fabs(self.gradientX[y, x] * currentNormalX + self.gradientY[y, x] * currentNormalY) + 0.001
+            self.data[y, x] = math.fabs(self.gradientX[y, x] * currentNormalY - self.gradientY[y, x] * currentNormalX) + 0.001
     
     def computeTarget(self):
         self.targetIndex = 0
@@ -228,7 +228,6 @@ class Inpainter():
                 else:
                     self.targetPatchTList.append((i, j))
                     
-        
         for (y, x) in self.sourcePatchULList:
                 patchError = 0
                 meanR = meanG = meanB = 0
@@ -272,7 +271,6 @@ class Inpainter():
                         minError = patchError
                         self.bestMatchUpperLeft = (x, y)
                         self.bestMatchLowerRight = (x+pWidth-1, y+pHeight-1)
-                    
     
     def updateMats(self):
         targetPoint = self.fillFront[self.targetIndex]
