@@ -46,7 +46,7 @@ if __name__ == "__main__":
         cv2.imwrite(resultName, i.result)
         # cv2.namedWindow("result")
         # cv2.imshow("result", i.result)
-        cv2.waitKey()
+        # cv2.waitKey()
     else:
         print 'Error: invalid parameters (type %d).\n'%(check)
     
